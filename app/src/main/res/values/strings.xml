@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">BareHW2</string>
+    <string name="Pig_Dice">Pig Dice</string>
+    <string name="Play">Start Game</string>
+    <string name="Learn_More">About Pig Dice</string>
+
+    <string name="player1">Player 1</string>
+    <string name="player2">Player 2</string>
+</resources>
