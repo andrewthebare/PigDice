@@ -24,12 +24,13 @@ public class gamePlay extends AppCompatActivity {
     private TextView txtToWin;
     private TextView txtInfo;
 
-    private int toWin = 40;
+    private int toWin = 400;
     private int diceNum;
     private boolean botTurn;
 
     private int playerScore;
     private int botScore;
+    private boolean bust = false;
 
     private int bank;
 
@@ -46,6 +47,10 @@ public class gamePlay extends AppCompatActivity {
     }
 
     private void roll(View view){
+        roll();
+    }
+
+    private void roll(){
 
         diceNum=rand.nextInt(6)+1;
 
@@ -79,15 +84,18 @@ public class gamePlay extends AppCompatActivity {
         else{
             bank = 0;
             btnRoll.setVisibility(View.INVISIBLE);
+            bust = true;
         }
 
         //update bank value
         txtBank.setText(Integer.toString(bank));
 
     }
-    private void bank(View view){
-        boolean winnerFound = false;
 
+    private void bank(View view){
+        bank();
+    }
+    private void bank(){
         if(botTurn){
             botScore += bank;
 
@@ -118,6 +126,20 @@ public class gamePlay extends AppCompatActivity {
     }
 
     private void botLogic(){
+        bust = false;
+
+        //define a goal value, adjust according to scale of the game
+        int goal = toWin/2;
+        if (goal < 20)
+            goal=20;
+        else if (goal > 40)
+            goal = rand.nextInt(10)+20;
+
+        while(bank< goal && bank+botScore < toWin && !bust){
+            roll();
+        }
+        bank();
+
 
     }
 
