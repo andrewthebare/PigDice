@@ -40,6 +40,7 @@ public class gamePlay extends AppCompatActivity {
     private boolean bust = false;
 
     private int bank;
+    private int round;
 
 
     @Override
@@ -126,13 +127,17 @@ public class gamePlay extends AppCompatActivity {
         //get ready for other person's turn
         bank=0;
         txtBank.setText(Integer.toString(bank));
+
         botTurn = !botTurn;
         btnRoll.setVisibility(View.VISIBLE);
         if ((botTurn)) {
-            txtInfo.setText(R.string.player2turn);
+            String x = "Round " + Integer.toString(round) + ": " + "It's the AI's turn!";
+            txtInfo.setText(x);
             botLogic();
         } else {
-            txtInfo.setText(R.string.player1turn);
+            round ++;
+            String x = "Round " + Integer.toString(round) + ": " + "It's your turn!";
+            txtInfo.setText(x);
         }
 
     }
@@ -177,10 +182,14 @@ public class gamePlay extends AppCompatActivity {
         playerScore=0;
         botScore=0;
         bank=0;
+        round = 1;
         diceNum=1;
 
         txtP1.setText(Integer.toString(playerScore));
         txtP2.setText(Integer.toString(botScore));
+        String x = "Round " + Integer.toString(round) + ": " + "It's your turn!";
+        txtInfo.setText(x);
+
         System.out.println(txtToWin.getText());
 
         System.out.println("SET VALUES!!");
