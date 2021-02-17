@@ -2,13 +2,19 @@
     <string name="app_name">BareHW2</string>
     <string name="Pig_Dice">Pig Dice</string>
     <string name="Play">Start Game</string>
+    <string name="confirm">Confirm</string>
     <string name="Learn_More">About Pig Dice</string>
+
+    <string name="SetScore">Set Score to Win</string>
+    <string name="zero">0</string>
 
     <string name="player1">Player 1</string>
     <string name="player2">Player 2</string>
     <string name="roll">Roll</string>
+    <string name="bust">Bust!</string>
     <string name="currentBank">Current Bank</string>
     <string name="bank">Bank Score</string>
+    <string name="playAgain">Play Again?</string>
     <string name="player1turn">It\'s your turn!</string>
     <string name="player2turn">It\'s the cpu\'s turn</string>
 

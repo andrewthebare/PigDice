@@ -1,10 +1,16 @@
 package com.example.barehw2;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,6 +18,7 @@ import java.util.Random;
 
 public class gamePlay extends AppCompatActivity {
     private Random rand;
+    private CountDownTimer mTimer;
 
     private int diceID;
     private ImageView imgView;
@@ -24,7 +31,7 @@ public class gamePlay extends AppCompatActivity {
     private TextView txtToWin;
     private TextView txtInfo;
 
-    private int toWin = 400;
+    private int toWin = 40;
     private int diceNum;
     private boolean botTurn;
 
@@ -40,7 +47,6 @@ public class gamePlay extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_play);
 
-        System.out.println("Hello World");
         restart();
 
 
@@ -49,7 +55,6 @@ public class gamePlay extends AppCompatActivity {
     private void roll(View view){
         roll();
     }
-
     private void roll(){
 
         diceNum=rand.nextInt(6)+1;
@@ -85,6 +90,7 @@ public class gamePlay extends AppCompatActivity {
             bank = 0;
             btnRoll.setVisibility(View.INVISIBLE);
             bust = true;
+            txtInfo.setText(R.string.bust);
         }
 
         //update bank value
@@ -99,11 +105,17 @@ public class gamePlay extends AppCompatActivity {
         if(botTurn){
             botScore += bank;
 
+            if (botScore >= toWin){
+                showWinnerDialog("The AI ");
+            }
+
+
         }else{
             playerScore+= bank;
 
             //check for win
             if (playerScore >= toWin){
+                showWinnerDialog("You");
                 //player won
             }
         }
@@ -144,6 +156,7 @@ public class gamePlay extends AppCompatActivity {
     }
 
     private void restart(){
+        showToWinDialog();
         rand=new Random();
 
         imgView = findViewById(R.id.diceView);
@@ -166,13 +179,56 @@ public class gamePlay extends AppCompatActivity {
         bank=0;
         diceNum=1;
 
+        txtP1.setText(Integer.toString(playerScore));
+        txtP2.setText(Integer.toString(botScore));
         System.out.println(txtToWin.getText());
-
-
-        txtToWin.setText(Integer.toString(toWin));
 
         System.out.println("SET VALUES!!");
 
+
+    }
+
+    void showToWinDialog(){
+        AlertDialog.Builder b = new AlertDialog.Builder(this);
+        b.setTitle(R.string.SetScore);
+
+        final EditText input = new EditText(this);
+        b.setView(input);
+        b.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                toWin = Integer.parseInt(input.getText().toString());
+                txtToWin.setText(Integer.toString(toWin));
+            }
+        });
+
+        b.show();
+    }
+
+    void showWinnerDialog(String winner){
+        AlertDialog.Builder b = new AlertDialog.Builder(this);
+        b.setTitle(winner + " won!");
+
+        final TextView txtPlayAgain = new TextView(this);
+        txtPlayAgain.setText(R.string.playAgain);
+        b.setView(txtPlayAgain);
+
+        b.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                System.out.println(which);
+                restart();
+            }
+        });
+
+        b.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                System.exit(0);
+            }
+        });
+
+        b.show();
 
     }
 
