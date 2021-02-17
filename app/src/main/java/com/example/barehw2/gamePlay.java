@@ -58,44 +58,61 @@ public class gamePlay extends AppCompatActivity {
     }
     private void roll(){
 
-        diceNum=rand.nextInt(6)+1;
-
-        //display logic
-        switch (diceNum){
-            case 1:
-                diceID = R.drawable.dice1;
-                break;
-            case 2:
-                diceID = R.drawable.dice2;
-                break;
-            case 3:
-                diceID = R.drawable.dice3;
-                break;
-            case 4:
-                diceID = R.drawable.dice4;
-                break;
-            case 5:
-                diceID = R.drawable.dice5;
-                break;
-            case 6:
-                diceID = R.drawable.dice6;
-                break;
-        }
-        imgView.setImageResource(diceID);
-
-        //if not a 1, add to the bank
-        if (diceNum != 1){
-            bank+=diceNum;
-        }
-        else{
-            bank = 0;
-            btnRoll.setVisibility(View.INVISIBLE);
-            bust = true;
-            txtInfo.setText(R.string.bust);
+        //timer dice
+        if (mTimer != null) {
+            mTimer.cancel();
         }
 
-        //update bank value
-        txtBank.setText(Integer.toString(bank));
+        mTimer = new CountDownTimer(1000, 100) {
+            public void onTick(long millisUntilFinished) {
+
+                diceNum=rand.nextInt(6)+1;
+                imgView.setRotation(-1*imgView.getRotation());
+
+                //display logic
+                switch (diceNum){
+                    case 1:
+                        diceID = R.drawable.dice1;
+                        break;
+                    case 2:
+                        diceID = R.drawable.dice2;
+                        break;
+                    case 3:
+                        diceID = R.drawable.dice3;
+                        break;
+                    case 4:
+                        diceID = R.drawable.dice4;
+                        break;
+                    case 5:
+                        diceID = R.drawable.dice5;
+                        break;
+                    case 6:
+                        diceID = R.drawable.dice6;
+                        break;
+                }
+                imgView.setImageResource(diceID);
+
+            }
+
+            @Override
+            public void onFinish() {
+
+                //if not a 1, add to the bank
+                if (diceNum != 1){
+                    bank+=diceNum;
+                }
+                else{
+                    bank = 0;
+                    btnRoll.setVisibility(View.INVISIBLE);
+                    bust = true;
+                    txtInfo.setText(R.string.bust);
+                }
+
+                //update bank value
+                txtBank.setText(Integer.toString(bank));
+
+            }
+        }.start();
 
     }
 
@@ -103,10 +120,13 @@ public class gamePlay extends AppCompatActivity {
         bank();
     }
     private void bank(){
+        boolean winnerFound = false;
+
         if(botTurn){
             botScore += bank;
 
             if (botScore >= toWin){
+                winnerFound = true;
                 showWinnerDialog("The AI ");
             }
 
@@ -116,6 +136,7 @@ public class gamePlay extends AppCompatActivity {
 
             //check for win
             if (playerScore >= toWin){
+                winnerFound =true;
                 showWinnerDialog("You");
                 //player won
             }
@@ -124,20 +145,28 @@ public class gamePlay extends AppCompatActivity {
         txtP1.setText(Integer.toString(playerScore));
         txtP2.setText(Integer.toString(botScore));
 
-        //get ready for other person's turn
-        bank=0;
-        txtBank.setText(Integer.toString(bank));
+        if (!winnerFound) {
+            //get ready for other person's turn
+            bank = 0;
+            txtBank.setText(Integer.toString(bank));
 
-        botTurn = !botTurn;
-        btnRoll.setVisibility(View.VISIBLE);
-        if ((botTurn)) {
-            String x = "Round " + Integer.toString(round) + ": " + "It's the AI's turn!";
-            txtInfo.setText(x);
-            botLogic();
-        } else {
-            round ++;
-            String x = "Round " + Integer.toString(round) + ": " + "It's your turn!";
-            txtInfo.setText(x);
+            botTurn = !botTurn;
+            if ((botTurn)) {
+                String x = "Round " + Integer.toString(round) + ": " + "It's the AI's turn!";
+                txtInfo.setText(x);
+                btnRoll.setVisibility(View.INVISIBLE);
+                btnBank.setVisibility(View.INVISIBLE);
+
+                botLogic();
+            } else {
+                round++;
+                String x = "Round " + Integer.toString(round) + ": " + "It's your turn!";
+                txtInfo.setText(x);
+
+                btnRoll.setVisibility(View.VISIBLE);
+                btnBank.setVisibility(View.VISIBLE);
+
+            }
         }
 
     }
@@ -152,11 +181,27 @@ public class gamePlay extends AppCompatActivity {
         else if (goal > 40)
             goal = rand.nextInt(10)+20;
 
-        while(bank< goal && bank+botScore < toWin && !bust){
-            roll();
-        }
-        bank();
+        botRoll(goal);
+    }
 
+    private void botRoll(int goal){
+        roll();
+        CountDownTimer c = new CountDownTimer(1300, 500) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+
+            }
+
+            @Override
+            public void onFinish() {
+
+                if(bank <= goal && bank + botScore < toWin && !bust){
+                    botRoll(goal);
+                }else{
+                    bank();
+                }
+            }
+        }.start();
 
     }
 
