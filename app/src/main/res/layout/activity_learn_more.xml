@@ -23,6 +23,7 @@
                 android:id="@+id/LearnTitle"
                 android:layout_width="match_parent"
                 android:layout_height="47dp"
+                android:background="@color/main"
 
                 android:textSize="30sp"
                 android:gravity="center"
@@ -36,7 +37,7 @@
 
                 android:layout_marginTop="30dp"
                 android:gravity="center"
-                android:text="The objective of pig dice is to reach the top score first"
+                android:text="@string/the_objective"
 
                 android:textSize="20sp"
                 />
@@ -47,7 +48,7 @@
 
                 android:layout_marginTop="30dp"
                 android:gravity="center"
-                android:text="First, you will be prompted to set the winning value for the game"
+                android:text="@string/the_objective"
 
                 android:textSize="20sp"
                 />
@@ -58,7 +59,7 @@
 
                 android:layout_marginTop="30dp"
                 android:gravity="center"
-                android:text="On your turn you have the opportunity to roll the dice. Any number that isn't a 1 is added to your running bank total"
+                android:text="@string/onyour"
 
                 android:textSize="20sp"
                 />
@@ -68,7 +69,7 @@
 
                 android:layout_marginTop="30dp"
                 android:gravity="center"
-                android:text="You may bank the current score you have, and pass your turn to your opponent. If you roll a 1 then you lose your current bank score and must pass to your opponent"
+                android:text="@string/you_may"
 
                 android:textSize="20sp"
                 />
@@ -80,8 +81,21 @@
                 android:textSize="30sp"
                 android:gravity="center"
                 android:layout_marginTop="30dp"
+                android:background="@color/main"
 
                 android:text="@string/credits" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="95dp"
+
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:text="@string/allImages"
+
+                android:textSize="20sp"
+                />
+
 
         </LinearLayout>
     </ScrollView>
