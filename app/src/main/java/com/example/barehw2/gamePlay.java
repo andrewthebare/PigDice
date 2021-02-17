@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -181,6 +182,9 @@ public class gamePlay extends AppCompatActivity {
         else if (goal > 40)
             goal = rand.nextInt(10)+20;
 
+        if(playerScore+10 >= toWin)
+            goal=toWin;
+
         botRoll(goal);
     }
 
@@ -232,6 +236,10 @@ public class gamePlay extends AppCompatActivity {
 
         txtP1.setText(Integer.toString(playerScore));
         txtP2.setText(Integer.toString(botScore));
+        txtBank.setText(Integer.toString(bank));
+        btnRoll.setVisibility(View.VISIBLE);
+        btnBank.setVisibility(View.VISIBLE);
+
         String x = "Round " + Integer.toString(round) + ": " + "It's your turn!";
         txtInfo.setText(x);
 
@@ -247,11 +255,14 @@ public class gamePlay extends AppCompatActivity {
         b.setTitle(R.string.SetScore);
 
         final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        b.setCancelable(false);
         b.setView(input);
         b.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                toWin = Integer.parseInt(input.getText().toString());
+                if(!input.getText().toString().equals(""))
+                    toWin = Integer.parseInt(input.getText().toString());
                 txtToWin.setText(Integer.toString(toWin));
             }
         });

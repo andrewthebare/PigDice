@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
     protected void onLearn(View view){
-        setContentView(R.layout.activity_game_play);
+        Intent intent = new Intent(this, learnMore.class);
+        startActivity(intent);
     }
 }

@@ -4,6 +4,7 @@
     <string name="Play">Start Game</string>
     <string name="confirm">Confirm</string>
     <string name="Learn_More">About Pig Dice</string>
+    <string name="credits">Credits</string>
 
     <string name="SetScore">Set Score to Win</string>
     <string name="zero">0</string>
