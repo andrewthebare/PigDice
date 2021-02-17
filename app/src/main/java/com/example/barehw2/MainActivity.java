@@ -2,6 +2,7 @@ package com.example.barehw2;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,9 +23,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void onStart(View view){
-        setContentView(R.layout.gameplayscreen);
+        Intent intent = new Intent(this, gamePlay.class);
+        startActivity(intent);
     }
     protected void onLearn(View view){
-        setContentView(R.layout.gameplayscreen);
+        setContentView(R.layout.activity_game_play);
     }
 }
